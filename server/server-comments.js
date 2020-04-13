@@ -2,6 +2,7 @@ require("./config/config");
 //Al ser este el primer archivo, cuando empiece a ejecutar la aplicacion va a leer el config.js, lo va a ejecutar y al hacerlo va a configurar todo lo que el contenga
 
 //LOS APP.USE SON MIDDLEWARES ES DECIR QUE SE VAN A DISPARAR CADA VEZ QUE EL CODIGO PASE POR AHI
+//ES DECIR QUE SE EJECUTAN CADA VEZ QUE SE ENVIA UN REQUEST AL SERVIDOR
 
 const express = require("express");
 const app = express();
