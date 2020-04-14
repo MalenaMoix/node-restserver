@@ -4,16 +4,21 @@ const _ = require("underscore");
 const app = express();
 
 const Usuario = require("../models/usuario");
+const { verificaToken, verificaRole } = require("../middlewares/autenticacion");
 
-app.get("/usuario", (req, res) => {
+//verificaToken es el middleware que se va a disparar cuando se quiera acceder a la ruta especificada
+app.get("/usuario", verificaToken, (req, res) => {
+    //Asi obtengo el usuario, es decir, el payload, que ya paso por el verifica token, donde alli setee esta propiedad por eso ahora puedo acceder a ella
+    let usuario = req.usuario;
+
     let desde = req.query.desde || 0;
     desde = Number(desde);
     let limite = req.query.limite || 5;
     limite = Number(limite);
 
     //Con find({}) me trae todos los registros de la coleccion
-    //Y si solo quiero que se muestre el nombre lo indico de la siguiente manera
-    Usuario.find({ estado: true }, "nombre")
+    //Y si solo quiero que se muestre el nombre mando "nombre" como argumento
+    Usuario.find({ estado: true })
         .skip(desde)
         .limit(limite)
         .exec((err, usuarios) => {
@@ -36,7 +41,7 @@ app.get("/usuario", (req, res) => {
         });
 });
 
-app.post("/usuario", (req, res) => {
+app.post("/usuario", [verificaToken, verificaRole], (req, res) => {
     let body = req.body;
 
     let usuario = new Usuario({
@@ -61,7 +66,7 @@ app.post("/usuario", (req, res) => {
     });
 });
 
-app.put("/usuario/:id", (req, res) => {
+app.put("/usuario/:id", [verificaToken, verificaRole], (req, res) => {
     let id = req.params.id;
     //Con el pick elijo los atributos que si se van a poder actualizar
     let body = _.pick(req.body, ["nombre", "email", "img", "role", "estado"]);
@@ -84,32 +89,32 @@ app.put("/usuario/:id", (req, res) => {
     );
 });
 
-app.delete("/usuario/:id", (req, res) => {
+app.delete("/usuario/:id", [verificaToken, verificaRole], (req, res) => {
     let id = req.params.id;
 
     //Eliminar el registro fisicamente
     /*Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
-                      if (err) {
-                          return res.status(400).json({
-                              ok: false,
-                              err,
-                          });
-                      }
+                                                  if (err) {
+                                                      return res.status(400).json({
+                                                          ok: false,
+                                                          err,
+                                                      });
+                                                  }
 
-                      if (usuarioBorrado === null) {
-                          return res.status(400).json({
-                              ok: false,
-                              err: {
-                                  message: "Usuario no encontrado",
-                              },
-                          });
-                      }
+                                                  if (usuarioBorrado === null) {
+                                                      return res.status(400).json({
+                                                          ok: false,
+                                                          err: {
+                                                              message: "Usuario no encontrado",
+                                                          },
+                                                      });
+                                                  }
 
-                      res.json({
-                          ok: true,
-                          usuario: usuarioBorrado,
-                      });
-                  });*/
+                                                  res.json({
+                                                      ok: true,
+                                                      usuario: usuarioBorrado,
+                                                  });
+                                              });*/
 
     let cambiarEstado = {
         estado: false,

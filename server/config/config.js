@@ -2,17 +2,17 @@
 //El process es un objeto global que esta corriendo a lo largo de toda la aplicacion de node, y tambien es actualizado dependiendo del environment donde esta corriendo
 
 //
-//Puerto
+//  Puerto
 //
 process.env.PORT = process.env.PORT || 8080;
 
 //
-//Entorno
+//  Entorno
 //
 process.env.NODE_ENV = process.env.NODE_ENV || "dev";
 
 //
-//Base de datos
+//  Base de datos
 //
 let urlDB;
 if (process.env.NODE_ENV === "dev") {
@@ -22,3 +22,17 @@ if (process.env.NODE_ENV === "dev") {
 }
 //urlDB = "mongodb+srv://taylor:0toprMg0FzwW46nt@cluster0-0lcnt.mongodb.net/cafe";
 process.env.URLDB = urlDB;
+
+//
+//  Fecha de expiracion del Token
+//  60 segundos
+//  60minutos
+//  24 horas
+//  30 dias
+//
+process.env.CADUCIDAD_TOKEN = 60 * 60 * 24 * 30;
+
+//
+//  SEED de autenticacion
+//
+process.env.SEED = process.env.SEED || "este-es-el-seed-de-desarrollo";
