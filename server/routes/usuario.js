@@ -9,7 +9,7 @@ const { verificaToken, verificaRole } = require("../middlewares/autenticacion");
 //verificaToken es el middleware que se va a disparar cuando se quiera acceder a la ruta especificada
 app.get("/usuario", verificaToken, (req, res) => {
     //Asi obtengo el usuario, es decir, el payload, que ya paso por el verifica token, donde alli setee esta propiedad por eso ahora puedo acceder a ella
-    let usuario = req.usuario;
+    //let usuario = req.usuario;
 
     let desde = req.query.desde || 0;
     desde = Number(desde);
@@ -94,27 +94,27 @@ app.delete("/usuario/:id", [verificaToken, verificaRole], (req, res) => {
 
     //Eliminar el registro fisicamente
     /*Usuario.findByIdAndRemove(id, (err, usuarioBorrado) => {
-                                                  if (err) {
-                                                      return res.status(400).json({
-                                                          ok: false,
-                                                          err,
-                                                      });
-                                                  }
+                                                      if (err) {
+                                                          return res.status(400).json({
+                                                              ok: false,
+                                                              err,
+                                                          });
+                                                      }
 
-                                                  if (usuarioBorrado === null) {
-                                                      return res.status(400).json({
-                                                          ok: false,
-                                                          err: {
-                                                              message: "Usuario no encontrado",
-                                                          },
-                                                      });
-                                                  }
+                                                      if (usuarioBorrado === null) {
+                                                          return res.status(400).json({
+                                                              ok: false,
+                                                              err: {
+                                                                  message: "Usuario no encontrado",
+                                                              },
+                                                          });
+                                                      }
 
-                                                  res.json({
-                                                      ok: true,
-                                                      usuario: usuarioBorrado,
-                                                  });
-                                              });*/
+                                                      res.json({
+                                                          ok: true,
+                                                          usuario: usuarioBorrado,
+                                                      });
+                                                  });*/
 
     let cambiarEstado = {
         estado: false,

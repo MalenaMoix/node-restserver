@@ -18,7 +18,12 @@ app.use(express.static(path.resolve(__dirname, "../public")));
 app.use(require("./routes/index"));
 
 mongoose.connect(
-    process.env.URLDB, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true },
+    process.env.URLDB, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
+    },
     (err, res) => {
         if (err) throw err;
 
